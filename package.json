@@ -1,0 +1,27 @@
+{
+  "name": "@ndiinginc/url",
+  "version": "1.0.0",
+  "description": "url and search params parser",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ndiing/url.git"
+  },
+  "keywords": [
+    "url",
+    "searchparams",
+    "parser"
+  ],
+  "author": "ndiing",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ndiing/url/issues"
+  },
+  "homepage": "https://github.com/ndiing/url#readme"
+}
