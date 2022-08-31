@@ -1,6 +1,6 @@
 {
   "name": "@ndiinginc/url",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "url and search params parser",
   "main": "index.js",
   "directories": {
