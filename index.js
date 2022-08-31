@@ -32,15 +32,26 @@ class URLSearchParams2 {
     /**
      *
      */
-    constructor(init = "") {
-        init = init
-            .replace(/[^\?]+\?/, "")
-            .replace(/^\?/, "")
-            .replace(/#[^#]+/, "")
-            .matchAll(/([^\=&]+?)\=([^\=&]+?)?(&|$)/g);
-
-        for (const [, name, value] of init) {
-            this.append(name, value);
+    constructor(init) {
+        if (typeof init == "string") {
+            init = init
+                .replace(/[^\?]+\?/, "")
+                .replace(/^\?/, "")
+                .replace(/#[^#]+/, "")
+                .matchAll(/([^\=&]+?)\=([^\=&]+?)?(&|$)/g);
+            for (const [, name, value] of init) {
+                this.append(name, value);
+            }
+        } else if (typeof init == "object") {
+            if (Array.isArray(init)) {
+                for (const [name, value] of init) {
+                    this.append(name, value);
+                }
+            } else {
+                for (const name in init) {
+                    this.append(name, init[name]);
+                }
+            }
         }
     }
 
@@ -148,6 +159,13 @@ class URLSearchParams2 {
     }
 }
 
+// var searchParams = new URLSearchParams2("?name=value");
+// console.log(searchParams);
+// var searchParams = new URLSearchParams2({ name: "value" });
+// console.log(searchParams);
+// var searchParams = new URLSearchParams2([["name", "value"]]);
+// console.log(searchParams);
+
 /**
  * @example
  * // Usage
@@ -209,6 +227,73 @@ class URLSearchParams2 {
  * // }
  */
 class URL2 {
+    get protocol() {
+        return this._protocol;
+    }
+    set protocol(value) {
+        this._protocol = value;
+    }
+
+    get host() {
+        return this._host;
+    }
+    set host(value) {
+        this._host = value;
+    }
+
+    get pathname() {
+        return this._pathname;
+    }
+    set pathname(value) {
+        this._pathname = value;
+    }
+
+    get search() {
+        return this._search;
+    }
+    set search(value) {
+        this._search = value;
+        this.searchParams = new URLSearchParams2(this.search);
+    }
+
+    get hash() {
+        return this._hash;
+    }
+    set hash(value) {
+        this._hash = value;
+    }
+
+    get hostname() {
+        return this._hostname;
+    }
+    set hostname(value) {
+        this._hostname = value;
+    }
+
+    get port() {
+        return this._port;
+    }
+    set port(value) {
+        this._port = value;
+    }
+
+    get origin() {
+        return this.protocol + "//" + this.hostname + ":" + this.port;
+    }
+
+    // _searchParams;
+    // get searchParams() {
+    //     return new URLSearchParams2(this.search)
+    // }
+
+    get path() {
+        return this.pathname + this.search + this.hash;
+    }
+
+    get href() {
+        return ''+this;
+    }
+
     /**
      * @see [Uniform Resource Identifier (URI): Generic Syntax](https://www.rfc-editor.org/rfc/rfc3986)
      */
@@ -219,27 +304,46 @@ class URL2 {
             url = base + url;
         }
         const regexp = /^(([^:/?#]+):)?(\/\/([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?/;
-        const [href, protocol, scheme, authority, host, pathname = "/", search = "", query = "", hash = "", fragment = ""] = ("" + url).match(regexp);
-        const [hostname, port] = ("" + host).split(":");
+        const [
+            ,
+            //
+            /* href */ protocol,
+            ,
+            ,
+            /* scheme */ /* authority */ host,
+            pathname /*  = "/" */,
+            search = "",
+            ,
+            /* query = "" */ hash = "",
+            /* fragment = "" */
+            ,
+        ] = ("" + url).match(regexp);
 
-        this.href = href;
+        // this.href = href;
         this.protocol = protocol;
-        this.scheme = scheme;
-        this.authority = authority;
+        // this.scheme = scheme;
+        // this.authority = authority;
         this.host = host;
-        this.pathname = pathname ?? "/";
+        this.pathname = pathname || "/";
         this.search = search;
-        this.query = query;
+        // this.query = query;
         this.hash = hash;
-        this.fragment = fragment;
+        // this.fragment = fragment;
+
+        const [
+            //
+            hostname,
+            port,
+        ] = ("" + this.host).split(":");
+
         this.hostname = hostname;
         this.port = parseInt(port || (this.protocol == "https:" ? 443 : 80));
 
-        this.origin = this.protocol + this.authority;
+        // this.origin = this.protocol + "//" + this.hostname + ":" + this.port;
         // this.password;
-        this.searchParams = new URLSearchParams2(this.search);
+        // this.searchParams = new URLSearchParams2(this.search);
         // this.username;
-        this.path = this.pathname + this.search + this.hash;
+        // this.path = this.pathname + this.search + this.hash;
     }
     // createObjectURL(){}
     // revokeObjectURL(){}
@@ -261,3 +365,11 @@ class URL2 {
 URL2.URLSearchParams2 = URLSearchParams2;
 
 module.exports = URL2;
+
+// var url = new URL2("https://www.google.com/search?q=new+url&oq=new+URL&aqs=chrome.0.69i59i512j0i512l6j69i60.1081j0j4&sourceid=chrome&ie=UTF-8#new-url");
+// url.pathname = "/data";
+// url.protocol = "http:";
+// console.log(url.path);
+// console.log(url.href);
+// console.log("" + url);
+// console.log(url);
