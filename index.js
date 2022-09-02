@@ -159,11 +159,23 @@ class URLSearchParams2 {
     }
 }
 
-// var searchParams = new URLSearchParams2("?name=value");
+// var searchParams = new URLSearchParams2("https://www.google.com/search?q=url+search+params&oq=url+search+params&aqs=chrome..69i57j0i512l4j69i60l3.2394j0j7&sourceid=chrome&ie=UTF-8#url+search+params");
 // console.log(searchParams);
-// var searchParams = new URLSearchParams2({ name: "value" });
+// var searchParams = new URLSearchParams2({
+//     q: "url+search+params",
+//     oq: "url+search+params",
+//     aqs: "chrome..69i57j0i512l4j69i60l3.2394j0j7",
+//     sourceid: "chrome",
+//     ie: "UTF-8",
+// });
 // console.log(searchParams);
-// var searchParams = new URLSearchParams2([["name", "value"]]);
+// var searchParams = new URLSearchParams2([
+//     ["q", "url+search+params"],
+//     ["oq", "url+search+params"],
+//     ["aqs", "chrome..69i57j0i512l4j69i60l3.2394j0j7"],
+//     ["sourceid", "chrome"],
+//     ["ie", "UTF-8"],
+// ]);
 // console.log(searchParams);
 
 /**
@@ -291,7 +303,7 @@ class URL2 {
     }
 
     get href() {
-        return ''+this;
+        return "" + this;
     }
 
     /**
@@ -366,10 +378,18 @@ URL2.URLSearchParams2 = URLSearchParams2;
 
 module.exports = URL2;
 
-// var url = new URL2("https://www.google.com/search?q=new+url&oq=new+URL&aqs=chrome.0.69i59i512j0i512l6j69i60.1081j0j4&sourceid=chrome&ie=UTF-8#new-url");
-// url.pathname = "/data";
-// url.protocol = "http:";
-// console.log(url.path);
-// console.log(url.href);
-// console.log("" + url);
-// console.log(url);
+
+// var url = new URL2("https://www.google.com/search?q=url+search+params&oq=url+search+params&aqs=chrome..69i57j0i512l4j69i60l3.2394j0j7&sourceid=chrome&ie=UTF-8#url+search+params");
+// console.log({href:url.href})
+// console.log({origin:url.origin})
+// console.log({protocol:url.protocol})
+// // console.log({username:url.username})
+// // console.log({password:url.password})
+// console.log({host:url.host})
+// console.log({hostname:url.hostname})
+// console.log({port:url.port})
+// console.log({pathname:url.pathname})
+// console.log({search:url.search})
+// console.log({searchParams:url.searchParams})
+// console.log({hash:url.hash})
+// // console.log(url);
